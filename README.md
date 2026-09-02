@@ -2,22 +2,13 @@
 
 ## Part 1: grounded document assistant
 
-`assistant.py` is a dependency-free Gemini chatbot grounded in all Markdown files
+`assistant.py` is a Gemini chatbot grounded in all Markdown files
 under `docs/`. The documents are split into source chunks and supplied to Gemini.
 Gemini must return a structured answer and the exact source IDs used; the CLI maps
 those IDs back to filenames, sections, line numbers, and source text.
 
-Set the API key in PowerShell (do not paste it into the code):
-
-```powershell
-$env:GEMINI_API_KEY = "your-new-gemini-api-key"
-```
-
-The default model is `gemini-3.6-flash`. Override it if needed:
-
-```powershell
-$env:GEMINI_MODEL = "gemini-3.6-flash"
-```
+Gemini settings are loaded automatically from the included `.env` file. The default
+model is `gemini-3.6-flash`.
 
 Run one question:
 
@@ -30,9 +21,6 @@ Or start interactive mode:
 ```powershell
 python assistant.py
 ```
-
-Keep that terminal open while running the assistant. Environment variables set this
-way disappear when the terminal closes. Rotate any key that has been posted in chat.
 
 Run the required behavior checks:
 
@@ -140,15 +128,8 @@ call list; they should not be presented as guaranteed conversion probabilities.
 ## Part 4: web interface
 
 The Flask page includes both document Q&A with sources and the bonus lead-scoring
-form. Install dependencies and configure Gemini in the same PowerShell window:
-
-```powershell
-Copy-Item .env.example .env
-notepad .env
-```
-
-Replace `your_gemini_api_key_here` in `.env` with a valid key, save it, then use the
-one-command launcher:
+form. The project includes a `.env` configuration file with a safe placeholder.
+After configuring that file privately, use the one-command launcher:
 
 ```powershell
 .\start.ps1
@@ -159,7 +140,5 @@ for general questions; its deterministic safety cases still work without a key.
 The lead model trains lazily on the first scoring request, so that first score can
 take several seconds. Stop the server with `Ctrl+C`.
 
-The real `.env` is intentionally excluded by `.gitignore`. API keys must not be
-committed to a public submission; the reviewer should use their own key or receive a
-fresh temporary key through a private channel. The included `.env.example` documents
-the required settings without exposing credentials.
+Never commit a real API key to this public repository. Keep the committed `.env`
+value as a placeholder and share any temporary evaluation credential privately.
